@@ -173,6 +173,11 @@ public final class Actions {
         return false;
     }
 
+    /**
+     * Prepends a page to the given CommandSender's held, unsigned book.
+     * @param sender The CommandSender (a Player, hopefully) holding the book in question
+     * @return True if the page was added, false otherwise, for example if it's not a player, not a book, or it's signed.
+     */
     public static boolean prependPage(CommandSender sender){
         if (sender instanceof Player){
             Player player = (Player) sender;

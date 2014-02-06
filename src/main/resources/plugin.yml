@@ -29,8 +29,8 @@ permissions:
       konseptbooks.read: true
       konseptbooks.action.list: true
       konseptbooks.action.help: true
-  konseptbooks.read:
-    description: 'Access to updating books when they are activated/read'
+  konseptbooks.getupdates:
+    description: 'Access to updating books in inventory automagically'
     default: false
   konseptbooks.getbooks:
     description: 'Access to summoning books from thin air'

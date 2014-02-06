@@ -105,6 +105,9 @@ public class KonseptBooksLibrary {
      * @param inventory The inventory that might hold some books.
      */
     public void updateBooksInInventory(Inventory inventory){
+        // TODO: Perhaps check if the book is updated etc etc.
+        // Profiling seems to indicate that doing those checks might actually be more costly than just doing it.
+        // Besides, it's not a proven performance issue, so let's optimize when we need to, shall we?
         if (inventory != null){
             for (ItemStack item : inventory.getContents()){
                 if (item != null && item.getType().equals(Material.WRITTEN_BOOK)){
@@ -170,7 +173,7 @@ public class KonseptBooksLibrary {
     /**
      * Deletes a book with the given title.
      * Will save afterwards, if the controlling plugin instance has autosave = true
-     * @param title Title of the book you want to delete.  Case sensitive.
+     * @param title Title of the book you want to delete.  Not case sensitive or anything.
      * @return True if the book was successfully deleted, false if no book with that title existed.
      */
     public boolean deleteBook(String title){

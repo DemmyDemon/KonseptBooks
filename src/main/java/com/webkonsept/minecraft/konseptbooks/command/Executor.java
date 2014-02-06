@@ -38,8 +38,13 @@ public class Executor implements CommandExecutor{
                 else {
                     showUsage = false;  // Showing usage is inherently not useful when someone requests a specific book.
                     if (sender instanceof Player){
-                        if (!giveBook((Player)sender,KonseptBooks.join(" ",args))){
-                            sender.sendMessage(ChatColor.RED+"Sorry, no such book.  Try /"+label+" -list");
+                        if (sender.hasPermission("konseptbooks.getbooks")){
+                            if (!giveBook((Player)sender,KonseptBooks.join(" ",args))){
+                                sender.sendMessage(ChatColor.RED+"Sorry, no such book.  Try /"+label+" -list");
+                            }
+                        }
+                        else {
+                            sender.sendMessage(ChatColor.RED+"Permission denied!");
                         }
                     }
                     else {
@@ -110,6 +115,13 @@ public class Executor implements CommandExecutor{
         }
         return showUsage;
     }
+
+    /**
+     * Gives a player a book, if at all possible.
+     * @param player The player that should receive the book.
+     * @param bookName The name of the book in question.  Not case sensitive or anything.
+     * @return Returns true if such a book exists and was give, false otherwise, for example on full inventory.
+     */
     private boolean giveBook(Player player,String bookName){
         KonseptBook book = plugin.getLibrary().getBook(bookName);
         if (book != null){

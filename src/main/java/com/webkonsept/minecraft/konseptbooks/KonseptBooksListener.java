@@ -19,48 +19,24 @@ public class KonseptBooksListener implements Listener {
         plugin = instance;
     }
 
-    /*
-    @EventHandler
-    public void onPlayerHoldingBook(PlayerItemHeldEvent event){
-        if (event.getPlayer().isOp()){
-            ItemStack inHand = event.getPlayer().getItemInHand();
-
-            if (inHand != null && inHand.getType().equals(Material.WRITTEN_BOOK)){
-                if (inHand.getItemMeta() instanceof BookMeta){
-                    final Date date = new Date();
-                    BookMeta meta = (BookMeta) inHand.getItemMeta();
-                    List<String> lore = new ArrayList<String>(){{
-                        add("Last updated:");
-                        add(date.toString());
-                    }};
-                    meta.setLore(lore);
-                    final String storageName = KonseptBooks.storageName(meta.getTitle());
-                    plugin.getLogger().info(event.getPlayer().getName()+" is holding "+ storageName);
-                    List<String> pages = new ArrayList<String>(){{
-                        add(storageName);
-                        add("Page two");
-                        add("Page three");
-                        add("");
-                        add("Page five!");
-                    }};
-                    meta.setPages(pages);
-                    inHand.setItemMeta(meta);
-                }
-            }
-        }
-    }
-    */
-
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
-        plugin.getLibrary().updateBooksInInventory(event.getPlayer().getInventory());
+        Player player = event.getPlayer();
+        if (player.hasPermission("konseptbooks.getupdates")){
+            plugin.getLibrary().updateBooksInInventory(player.getInventory());
+        }
     }
 
+
     @EventHandler
-    public void onInventoryClose(InventoryOpenEvent event){
+    public void onInventoryOpen(InventoryOpenEvent event){
+        // TODO: Is this really the best way?  Seriously?
         HumanEntity entity = event.getPlayer();
         if (entity instanceof Player){
-            plugin.getLibrary().updateBooksInInventory(event.getInventory());
+            Player player = (Player) entity;
+            if (player.hasPermission("konseptbooks.getupdates")){
+                plugin.getLibrary().updateBooksInInventory(event.getInventory());
+            }
         }
     }
 }
