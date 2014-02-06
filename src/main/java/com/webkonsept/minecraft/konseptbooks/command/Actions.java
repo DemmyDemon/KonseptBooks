@@ -15,15 +15,15 @@ import java.util.*;
 public final class Actions {
 
     // The list of actionsHelpText used for adaptiveHelp
-    private static final Map<String,String> actionsHelpText = new HashMap<String,String>(){{
+    private static final Map<String,String> actionsHelpText = new TreeMap<String,String>(){{
         put("add",      "Add the book you're holding to the library.");
         put("author",   "Set author of the signed book you're holding.");
         put("help",     "See this fantastic help text!");
         put("list",     "List the books you can get.");
-        put("prepend",  "Prepend a page to the book-and-quill you're holding");
+        put("prepend",  "Prepend a page to the book you're holding");
         put("reload",   "Reload the settings and library.");
         put("update",   "Update the library with the book you're holding.");
-        put("unsigned", "Get an unsigned copy of a book.  Provide a book name!");
+        put("unsigned", "Get an unsigned copy of a book.");
     }};
 
     private Actions(){
@@ -70,9 +70,12 @@ public final class Actions {
     public static boolean sendBookList(CommandSender sender,KonseptBooksLibrary library){
         ArrayList<String> bookList = library.getBookList();
         if (bookList.size() > 0){
-            sender.sendMessage(ChatColor.GOLD+"Books in the library: ");
+            sender.sendMessage(ChatColor.GOLD+"Books in the library:");
             for (String bookName : bookList){
-                sender.sendMessage("  "+bookName);
+                sender.sendMessage(ChatColor.GRAY+"  "+bookName);
+            }
+            if (sender instanceof Player){
+                sender.sendMessage(ChatColor.GOLD+"Also try the -help action.");
             }
         }
         else {
@@ -92,9 +95,7 @@ public final class Actions {
      */
     public static boolean adaptiveHelp(CommandSender sender){
         sender.sendMessage(ChatColor.GREEN + "KonseptBooks Help - Possible actions:");
-        String[] actions = (String[]) actionsHelpText.keySet().toArray();
-        Arrays.sort(actions);
-        for (String actionName : actions){
+        for (String actionName : actionsHelpText.keySet()){
             if (sender.hasPermission("konseptbooks.action."+actionName)){
                 sender.sendMessage("  -" + actionName + " > " + actionsHelpText.get(actionName));
             }
