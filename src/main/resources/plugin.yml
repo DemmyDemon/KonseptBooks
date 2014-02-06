@@ -26,7 +26,7 @@ permissions:
     default: false
     children:
       konseptbooks.getbooks: true
-      konseptbooks.read: true
+      konseptbooks.getupdates: true
       konseptbooks.action.list: true
       konseptbooks.action.help: true
   konseptbooks.getupdates:

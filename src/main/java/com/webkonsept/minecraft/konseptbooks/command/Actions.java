@@ -238,6 +238,35 @@ public final class Actions {
     }
 
     /**
+     * Delete a book from the given library.
+     * @param sender The CommandSender (a Player, hopefully) holding the book in question
+     * @param library The library to delete the book from.
+     * @return True if the deletion was successful.  False otherwise, for example if the book didn't exist.
+     */
+    public static boolean deleteBook(CommandSender sender,KonseptBooksLibrary library){
+        if (sender instanceof Player){
+            Player player = (Player) sender;
+            ItemStack inHand = player.getItemInHand();
+            if (inHand != null){
+                if (inHand.getType().equals(Material.WRITTEN_BOOK)){
+                    BookMeta meta = (BookMeta) inHand.getItemMeta();
+                    if (library.deleteBook(meta.getTitle())){
+                        sender.sendMessage(ChatColor.RED+meta.getTitle()+" deleted. [dramatic music]");
+                        return true;
+                    }
+                    else {
+                        sender.sendMessage(ChatColor.RED+"Couldn't delete that book.  Is it in the library?");
+                    }
+                }
+            }
+        }
+        else {
+            sender.sendMessage("Deleting books is done from the book in your hand.  Consoles don't have hands, players do.");
+        }
+        return false;
+    }
+
+    /**
      * Update a book already in the library.
      * @param sender The CommandSender (a Player, hopefully) holding the book in question.
      * @param library The library to update with the new version of the book.

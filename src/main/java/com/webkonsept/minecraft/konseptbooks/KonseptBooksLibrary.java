@@ -94,11 +94,18 @@ public class KonseptBooksLibrary {
         }
     }
 
+    /**
+     * Update the books held by ALL players.
+     * Permissions are checked.
+     */
     public void updatePlayerBooks(){
         for (Player player : plugin.getServer().getOnlinePlayers()){
-            updateBooksInInventory(player.getInventory());
+            if (player.hasPermission("konseptbooks.getupdates")){
+                updateBooksInInventory(player.getInventory());
+            }
         }
     }
+
     /**
      * Update all the books in the given inventory.
      * Doesn't return anything because it's updated in place.
@@ -167,7 +174,7 @@ public class KonseptBooksLibrary {
      * @return True if book was successfully deleted, false otherwise (did not exist)
      */
     public boolean deleteBook(KonseptBook book){
-        return deleteBook(KonseptBooks.storageName(book.getTitle()));
+        return deleteBook(book.getTitle());
     }
 
     /**

@@ -96,6 +96,12 @@ public class Executor implements CommandExecutor{
                     plugin.getLibrary().updatePlayerBooks();
                 }
                 break;
+            case "delete":
+                showUsage = false;
+                // if (Actions.deleteBook(sender,plugin.getLibrary())){  // WTH, the deletion specifically preclude updating it >.<
+                    plugin.getLibrary().updatePlayerBooks();
+                //}
+                break;
             case "unsigned":
                 showUsage = false;
                 Actions.getUnsignedBook(sender, actionArgs, plugin.getLibrary());
