@@ -241,10 +241,18 @@ public final class Actions {
      * Delete a book from the given library.
      * @param sender The CommandSender (a Player, hopefully) holding the book in question
      * @param library The library to delete the book from.
+     * @param titleBits The title of the book to update, if the held book is not signed.
      * @return True if the deletion was successful.  False otherwise, for example if the book didn't exist.
      */
-    public static boolean deleteBook(CommandSender sender,KonseptBooksLibrary library){
+    public static boolean deleteBook(CommandSender sender,KonseptBooksLibrary library,String[] titleBits){
+        if (titleBits == null){
+            sender.sendMessage("There is a bug. .updateBook() doesn't take a null titleBits.  Ever.  Make it an empty array!");
+            return false;
+        }
         if (sender instanceof Player){
+            if (titleBits.length > 0){
+                sender.sendMessage("Sorry, deletion is based on the book in your hand, you can't give a title.");
+            }
             Player player = (Player) sender;
             ItemStack inHand = player.getItemInHand();
             if (inHand != null){
@@ -261,7 +269,18 @@ public final class Actions {
             }
         }
         else {
-            sender.sendMessage("Deleting books is done from the book in your hand.  Consoles don't have hands, players do.");
+            if (titleBits.length > 0){
+                String title = KonseptBooks.join(" ",titleBits);
+                if (library.deleteBook(title)){
+                    sender.sendMessage(ChatColor.RED+title+" deleted.  I hope you have backups.");
+                }
+                else {
+                    sender.sendMessage(ChatColor.RED+"Couldn't delete that book.  Is it in the library?");
+                }
+            }
+            else {
+                sender.sendMessage("Well, if you're going to delete from console, you have to give a title.");
+            }
         }
         return false;
     }
