@@ -1,0 +1,61 @@
+name: KonseptBooks
+main: com.webkonsept.minecraft.konseptbooks.KonseptBooks
+version: ${version}
+commands:
+  konseptbooks:
+    description: 'Interact with KonseptBooks'
+    aliases:
+      - book
+      - books
+      - kb
+    usage: '/<command> [book name], or "/<command> -help" for other uses'
+permissions:
+  konseptbooks.admin:
+    description: 'Full access to all KonseptBooks permissions.'
+    default: op
+    children:
+      konseptbooks.action.reload: true
+      konseptbooks.action.update: true
+      konseptbooks.action.add: true
+      konseptbooks.action.unsigned: true
+      konseptbooks.action.author: true
+      konseptbooks.action.title: true
+      konseptbooks.user: true
+  konseptbooks.user:
+    description: 'Suggested access level for regular users.'
+    default: false
+    children:
+      konseptbooks.getbooks: true
+      konseptbooks.read: true
+      konseptbooks.action.list: true
+      konseptbooks.action.help: true
+  konseptbooks.read:
+    description: 'Access to updating books when they are activated/read'
+    default: false
+  konseptbooks.getbooks:
+    description: 'Access to summoning books from thin air'
+    default: false
+  konseptbooks.action.reload:
+    description: 'Access to reloading book definitions from disk'
+    default: false
+  konseptbooks.action.list:
+    description: 'Access to listing the available books'
+    default: false
+  konseptbooks.action.help:
+    description: 'Access to listing available actions'
+    default: false
+  konseptbooks.action.update:
+    description: 'Access to updating a book int he library'
+    default: false
+  konseptbooks.action.add:
+    description: 'Access to adding a book the the library'
+    default: false
+  konseptbooks.action.unsigned:
+    description: 'Access to getting unsigned books from the library'
+    default: false
+  konseptbooks.action.author:
+      description: 'Access to setting the author of a book in your hand'
+      default: false
+  konseptbooks.action.title:
+      description: 'Access to setting the title of a book in your hand'
+      default: false
