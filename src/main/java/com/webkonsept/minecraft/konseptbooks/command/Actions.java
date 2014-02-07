@@ -93,12 +93,23 @@ public final class Actions {
      * @param sender The CommandSender (a Player, for example) that is in need of help
      * @return Always returns true, just has a return for consistency
      */
-    public static boolean adaptiveHelp(CommandSender sender){
+    public static boolean adaptiveHelp(CommandSender sender,String aliasUsed){
         sender.sendMessage(ChatColor.GREEN + "KonseptBooks Help - Possible actions:");
         for (String actionName : actionsHelpText.keySet()){
+            int allowedActions = 0;
             if (sender.hasPermission("konseptbooks.action."+actionName)){
-                sender.sendMessage("  -" + actionName + " > " + actionsHelpText.get(actionName));
+                sender.sendMessage("-" + actionName + " > " + actionsHelpText.get(actionName));
+                allowedActions++;
             }
+            if (allowedActions == 0){
+                sender.sendMessage(ChatColor.RED+"  Ooops, you're not allowed to do much here.");
+            }
+        }
+        if (sender.hasPermission("konseptbooks.getbooks")){
+            sender.sendMessage(ChatColor.GREEN+"To get a book: /"+aliasUsed+" Put book name here");
+        }
+        if (sender.hasPermission("konseptbooks.getupdaes")){
+            sender.sendMessage(ChatColor.GREEN+"Books you get will update automatically.");
         }
         return true;
     }

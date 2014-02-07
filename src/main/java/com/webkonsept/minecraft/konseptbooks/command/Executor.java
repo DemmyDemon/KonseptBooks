@@ -33,7 +33,7 @@ public class Executor implements CommandExecutor{
                     if (args.length > 1){
                         actionArgs = Arrays.copyOfRange(args,1,args.length);
                     }
-                    showUsage = callAction(sender,action.toLowerCase().replaceFirst("-",""),actionArgs);
+                    showUsage = callAction(sender,action.toLowerCase().replaceFirst("-",""),actionArgs,label);
                 }
                 else {
                     showUsage = false;  // Showing usage is inherently not useful when someone requests a specific book.
@@ -63,7 +63,7 @@ public class Executor implements CommandExecutor{
      * @param actionArgs How it gets done to the poor bastard
      * @return Returns true if the action made sense, false if not.
      */
-    private boolean callAction(CommandSender sender,String action,String[] actionArgs){
+    private boolean callAction(CommandSender sender,String action,String[] actionArgs,String label){
         boolean showUsage = true;
 
         if (!sender.hasPermission("konseptbooks.action."+action)){
@@ -74,7 +74,7 @@ public class Executor implements CommandExecutor{
         switch (action) {
             case "help":
                 showUsage = false;
-                Actions.adaptiveHelp(sender);
+                Actions.adaptiveHelp(sender,label);
                 break;
             case "reload":
                 showUsage = false;
