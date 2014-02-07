@@ -1,5 +1,6 @@
 package com.webkonsept.minecraft.konseptbooks;
 
+import com.webkonsept.minecraft.konseptbooks.storage.KonseptBook;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -22,8 +23,33 @@ public class KonseptBooksListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
-        if (player.hasPermission("konseptbooks.getupdates")){
-            plugin.getLibrary().updateBooksInInventory(player.getInventory());
+        if (player.hasPlayedBefore()){
+            if (player.hasPermission("konseptbooks.getupdates")){
+                plugin.getLibrary().updateBooksInInventory(player.getInventory());
+            }
+        }
+        else {
+            if (plugin.giveNewbieBook){
+                KonseptBook newbieBook = plugin.getLibrary().getBook(plugin.newbieBookName);
+                if (newbieBook != null){
+                    if (player.hasPermission("konseptbooks.getbooks")){
+                        ItemStack book = newbieBook.getSigned();
+                        int slot = player.getInventory().firstEmpty();
+                        if (slot < 0){
+                            plugin.getLogger().warning("Your new players don't have space for the book you want to give them.  Seriously?");
+                        }
+                        else {
+                            player.getInventory().setItem(slot,book);
+                        }
+                    }
+                    else {
+                        plugin.getLogger().warning("New user "+player.getName()+" does not have permission to get the newbie book!");
+                    }
+                }
+                else {
+                    plugin.getLogger().warning("You are configured to give newbie books, but the book '"+plugin.newbieBookName+"' does not exist!");
+                }
+            }
         }
     }
 

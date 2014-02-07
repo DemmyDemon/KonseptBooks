@@ -13,7 +13,11 @@ public class KonseptBooks extends JavaPlugin {
     private KonseptBooksLibrary library;
     private KonseptBooksListener eventListener;
     private Executor commandExecutor;
+
+    // TODO - Make this stuff configurable!
     protected boolean autosave = true;
+    protected boolean giveNewbieBook = true;
+    protected String newbieBookName = "Welcome";
 
     @Override
     public void onEnable() {

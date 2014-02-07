@@ -156,6 +156,7 @@ public class KonseptBooksLibrary {
         String title = KonseptBooks.storageName(book.getTitle());
         plugin.getLogger().info("Update requested for "+title);
         if (books.containsKey(title)){
+            book.updatedNow();
             books.put(title,book);
             if (plugin.autosave){
                 save();

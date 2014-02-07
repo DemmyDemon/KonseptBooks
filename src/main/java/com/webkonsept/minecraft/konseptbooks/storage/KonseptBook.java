@@ -139,7 +139,6 @@ public class KonseptBook implements ConfigurationSerializable {
      * You need to setPages after editing.
      * @return A copy of this book's pages
      */
-    @SuppressWarnings("unchecked")
     public List<String> getPages(){
         return pages;
     }
@@ -170,7 +169,7 @@ public class KonseptBook implements ConfigurationSerializable {
             this.pages.remove(pageIndex);
         }
     }
-    private void updatedNow(){
+    public void updatedNow(){
         updated = new Date();
     }
 }
