@@ -56,10 +56,10 @@ public class KonseptBooksLibrary {
                 plugin.getLogger().info("Loaded "+books.size()+" books.");
 
                 if (books == null){
-                    plugin.getLogger().info("WELL FUCK, YOUR TRUST FILE IS BROKEN!");
+                    plugin.getLogger().severe("Your library file is entirely broken.  Clobbering!");
                     books = new HashMap<>();
                     save();
-                    plugin.getLogger().info("TRY THE FUCK AGAIN");
+
 
                 }
                 else {
