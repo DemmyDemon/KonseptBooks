@@ -54,17 +54,6 @@ public class KonseptBooksLibrary {
                     books.put(entry,(KonseptBook)section.get(entry));
                 }
                 plugin.getLogger().info("Loaded "+books.size()+" books.");
-
-                if (books == null){
-                    plugin.getLogger().severe("Your library file is entirely broken.  Clobbering!");
-                    books = new HashMap<>();
-                    save();
-
-
-                }
-                else {
-                    plugin.getLogger().info("Loaded books");
-                }
             }
         }
         else {
