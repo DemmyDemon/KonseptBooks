@@ -2,6 +2,7 @@ package com.webkonsept.minecraft.konseptbooks;
 
 import com.webkonsept.minecraft.konseptbooks.command.Executor;
 import com.webkonsept.minecraft.konseptbooks.storage.KonseptBook;
+import net.gravitydevelopment.updater.Updater;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,9 +14,13 @@ public class KonseptBooks extends JavaPlugin {
 
     private KonseptBooksLibrary library;
 
+    public static int curseProjectID = 74108;
+
     // FIXME Why are these even here?
     private KonseptBooksListener eventListener;
     private Executor commandExecutor;
+    protected Updater updater;
+    protected boolean updateWaiting = false;
 
     // TODONE - Made this stuff configurable!
     protected boolean autosave = true;
@@ -24,6 +29,9 @@ public class KonseptBooks extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        loadConfiguration();
+
         ConfigurationSerialization.registerClass(KonseptBook.class);
         library = new KonseptBooksLibrary(this, "books.yaml");
         eventListener = new KonseptBooksListener(this);
@@ -31,7 +39,8 @@ public class KonseptBooks extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(eventListener,this);
 
-        loadConfiguration();
+        checkUpdates();
+
     }
     @Override
     public void onDisable() {
@@ -46,6 +55,76 @@ public class KonseptBooks extends JavaPlugin {
         autosave = getConfig().getBoolean("autosave",true);
         giveNewbieBook = getConfig().getBoolean("giveNewbieBook",false);
         newbieBookName = getConfig().getString("newbieBookName","Welcome");
+        boolean checkForUpdates = getConfig().getBoolean("checkForUpdates", true);
+
+        if (checkForUpdates){
+            getLogger().info("Update checking is enabled, but I will not download it for you automatically.");
+        }
+        else {
+            getLogger().info("Update checking has been disabled.  Okay, fine.  Be that way.");
+        }
+    }
+
+    private void checkUpdates(){
+
+        // I realize this clobbers the existing updater on every reload or whatever, but I want that.
+        // I want it to check again in those cases.
+        updater = new Updater(this, curseProjectID, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
+
+        Updater.UpdateResult result = updater.getResult();
+        switch (result){
+
+            case SUCCESS:
+                getLogger().info("A new update was downloaded, and you can restart your server to apply it now.");
+                break;
+
+            case NO_UPDATE:
+                getLogger().info("You are running the latest released version.");
+                break;
+
+            case DISABLED:
+                // I don't want to tell people this as they could have turned it off to avoid spam...
+                // getLogger().info("You have disabled updates");
+                break;
+
+            case FAIL_DOWNLOAD:
+                getLogger().warning("There is an update available to "+updater.getLatestName()+" available, but I failed to download it!");
+                break;
+
+            case FAIL_DBO:
+                getLogger().warning("I can't get a hold of dev.bukkit.org, so there is an update I can't fetch for you!");
+                break;
+
+            case FAIL_NOVERSION:
+                getLogger().warning("I'm so sorry, but the file on dev.bukkit.org is a bit silly, so I have no idea what version it is.");
+                getLogger().warning("You should probably report this so it can get fixed sooner rather than later.");
+                break;
+
+            case FAIL_BADID:
+                getLogger().warning("I could not find this project on dev.bukkit.org - this is a bad thing and should be reported, please.");
+                break;
+
+            case FAIL_APIKEY:
+                getLogger().warning("There was a problem with the API key provided for updates.  Please report this error message.");
+                break;
+
+            case UPDATE_AVAILABLE:
+                updateWaiting = true;  //TODO do something fancy with this onLogin, or whatever.  Might be a nuisance?  TEST MOAR!
+                if (updater.getLatestType().equals(Updater.ReleaseType.RELEASE)){
+                    getLogger().info("A new and fresh update is available right here:  "+updater.getLatestFileLink());
+                }
+                else if (updater.getLatestType().equals(Updater.ReleaseType.BETA)){
+                    getLogger().info("You might want to consider the latest BETA release:  "+updater.getLatestFileLink());
+                }
+                else {
+                    getLogger().info("Feel like an adventure?  Try the new "+updater.getLatestType().toString()+" at "+updater.getLatestFileLink());
+                }
+                break;
+
+            default:
+                getLogger().warning("Unexpected updater result: "+result.toString()+"...  Please report this!");
+
+        }
     }
 
     /**
