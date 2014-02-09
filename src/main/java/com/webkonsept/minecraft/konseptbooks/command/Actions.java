@@ -18,10 +18,12 @@ public final class Actions {
     private static final Map<String,String> actionsHelpText = new TreeMap<String,String>(){{
         put("add",      "Add the book you're holding to the library.");
         put("author",   "Set author of the signed book you're holding.");
+        put("delete",   "Delete the book in your hand from the library.");
         put("help",     "See this fantastic help text!");
         put("list",     "List the books you can get.");
         put("prepend",  "Prepend a page to the book you're holding");
         put("reload",   "Reload the settings and library.");
+        put("title",    "Change the title of the signed book you're holding.");
         put("update",   "Update the library with the book you're holding.");
         put("unsigned", "Get an unsigned copy of a book.");
     }};
