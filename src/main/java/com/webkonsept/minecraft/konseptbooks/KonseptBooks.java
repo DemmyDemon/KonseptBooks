@@ -39,7 +39,7 @@ public class KonseptBooks extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(eventListener,this);
 
-        checkUpdates();
+
 
     }
     @Override
@@ -59,6 +59,7 @@ public class KonseptBooks extends JavaPlugin {
 
         if (checkForUpdates){
             getLogger().info("Update checking is enabled, but I will not download it for you automatically.");
+            checkUpdates();
         }
         else {
             getLogger().info("Update checking has been disabled.  Okay, fine.  Be that way.");
