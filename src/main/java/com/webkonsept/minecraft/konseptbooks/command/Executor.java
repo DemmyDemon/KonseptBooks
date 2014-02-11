@@ -136,9 +136,6 @@ public class Executor implements CommandExecutor{
                 player.sendMessage(ChatColor.GOLD+"You have been given the book "+book.getTitle());
                 return true;
             }
-            else {
-                return false;
-            }
         }
         return false;
     }
