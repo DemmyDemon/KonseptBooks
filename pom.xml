@@ -6,7 +6,7 @@
 
     <artifactId>KonseptBooks</artifactId>
     <groupId>KonseptCraft</groupId>
-    <version>0.7-SNAPSHOT</version>
+    <version>0.7-BETA</version>
 
     <repositories>
         <repository>
