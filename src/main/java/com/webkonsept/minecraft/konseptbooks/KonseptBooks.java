@@ -66,6 +66,11 @@ public class KonseptBooks extends JavaPlugin {
         }
     }
 
+    /**
+     * Check for updates and handle the result of that check.
+     * Entirely self-contained; nothing passed and nothing returned.
+     * It does have the side-effect of murdering this.updater and replacing it with a new one.
+     */
     private void checkUpdates(){
 
         // I realize this clobbers the existing updater on every reload or whatever, but I want that.

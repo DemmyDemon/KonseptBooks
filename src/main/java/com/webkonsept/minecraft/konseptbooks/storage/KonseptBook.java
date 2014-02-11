@@ -169,6 +169,10 @@ public class KonseptBook implements ConfigurationSerializable {
             this.pages.remove(pageIndex);
         }
     }
+
+    /**
+     * Change the last updated time to the current time.
+     */
     public void updatedNow(){
         updated = new Date();
     }
