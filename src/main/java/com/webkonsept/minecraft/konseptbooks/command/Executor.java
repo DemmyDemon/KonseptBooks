@@ -91,6 +91,7 @@ public class Executor implements CommandExecutor{
             case "library":
                 showUsage = false;
                 Actions.showLibrary(sender,plugin.getLibrary());
+                break;
             case "update":
                 showUsage = false;
                 if (Actions.updateBook(sender, plugin.getLibrary(),actionArgs)) {
