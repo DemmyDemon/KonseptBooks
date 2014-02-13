@@ -17,8 +17,7 @@ import java.util.*;
 public class KonseptBooksLibrary {
     private File bookFile;
     private KonseptBooks plugin;
-    private HashMap<String,KonseptBook> books = new HashMap<>();
-    private FileConfiguration fileConfiguration;
+    private TreeMap<String,KonseptBook> books = new TreeMap<>();
 
     private final static String bookEntryName = "library";
 
@@ -40,15 +39,13 @@ public class KonseptBooksLibrary {
     // @SuppressWarnings("unchecked")
     public void load(){
         if (bookFile != null){
-            books = new HashMap<>();
+            books = new TreeMap<>();
             if (!bookFile.exists()){
                 save();
                 plugin.getLogger().info("No book file! Created a new one.");
             }
             else {
-                if (fileConfiguration == null){
-                    fileConfiguration = YamlConfiguration.loadConfiguration(bookFile);
-                }
+                FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(bookFile);
                 MemorySection section = (MemorySection) fileConfiguration.get(bookEntryName);
                 for (String entry : section.getKeys(false)){
                     books.put(entry,(KonseptBook)section.get(entry));
@@ -67,12 +64,11 @@ public class KonseptBooksLibrary {
      */
     public void save(){
         if (books == null){
-            books = new HashMap<>();
+            books = new TreeMap<>();
         }
 
-        if (fileConfiguration == null){
-            fileConfiguration = YamlConfiguration.loadConfiguration(bookFile);
-        }
+        FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(bookFile);
+
         fileConfiguration.set(bookEntryName,books);
         try {
             fileConfiguration.save(bookFile);
@@ -81,6 +77,27 @@ public class KonseptBooksLibrary {
             e.printStackTrace();
             plugin.getLogger().severe("Could not save books: "+e.getMessage());
         }
+    }
+
+    /**
+     * Get the number of books in the library
+     * @return Integer sizer of the library.
+     */
+    public int size(){
+        if (books == null){
+            return 0;
+        }
+        else {
+            return books.size();
+        }
+    }
+
+    /**
+     * Get a collection of all the books to iterate over for your own damn self.
+     * @return A generic Collection of all the KonseptBook objects in the library.
+     */
+    public Collection<KonseptBook> getAll(){
+        return books.values();
     }
 
     /**
@@ -163,9 +180,11 @@ public class KonseptBooksLibrary {
      * @param book KonseptBook with the same title as the one you want to delete
      * @return True if book was successfully deleted, false otherwise (did not exist)
      */
+    /* Not actually ever used.
     public boolean deleteBook(KonseptBook book){
         return deleteBook(book.getTitle());
     }
+    */
 
     /**
      * Deletes a book with the given title.

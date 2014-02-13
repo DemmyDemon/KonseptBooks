@@ -3,10 +3,12 @@ package com.webkonsept.minecraft.konseptbooks.command;
 import com.webkonsept.minecraft.konseptbooks.KonseptBooks;
 import com.webkonsept.minecraft.konseptbooks.KonseptBooksLibrary;
 import com.webkonsept.minecraft.konseptbooks.storage.KonseptBook;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
@@ -20,9 +22,11 @@ public final class Actions {
         put("author",   "Set author of the signed book you're holding.");
         put("delete",   "Delete the book in your hand from the library.");
         put("help",     "See this fantastic help text!");
+        put("library",  "Open an inventory with all the books in it.");
         put("list",     "List the books you can get.");
         put("prepend",  "Prepend a page to the book you're holding");
         put("reload",   "Reload the settings and library.");
+        put("save",     "Save the library to disk.");
         put("title",    "Change the title of the signed book you're holding.");
         put("update",   "Update the library with the book you're holding.");
         put("unsigned", "Get an unsigned copy of a book.");
@@ -43,11 +47,13 @@ public final class Actions {
      * @deprecated You shouldn't be ADDING unimplemented stuff, dummy.
      * @return Always returns false...
      */
+    /* Happily, nothing is using notImplemented() any more!
     @Deprecated
     public static boolean notImplemented(CommandSender sender,String unimplementedAction){
         sender.sendMessage(ChatColor.YELLOW+"Sorry, -"+unimplementedAction+" is not implemented yet.");
         return false;
     }
+    */
 
     /**
      * Reload settings and library for the given plugin instance.
@@ -60,6 +66,12 @@ public final class Actions {
         sender.sendMessage("Library reloaded.");
         pluginInstance.loadConfiguration();
         sender.sendMessage("Configuration reloaded.");
+        return true;
+    }
+
+    public static boolean save(CommandSender sender,KonseptBooks pluginInstance){
+        pluginInstance.getLibrary().save();
+        sender.sendMessage("Library saved");
         return true;
     }
 
@@ -395,5 +407,26 @@ public final class Actions {
             sender.sendMessage("You can't receive in-game items on the console.  Seriously.");
         }
         return false;
+    }
+
+    public static boolean showLibrary(CommandSender sender, KonseptBooksLibrary library){
+        if (sender instanceof Player){
+            Player player = (Player) sender;
+            int libSize = library.size();
+            int useSize = (libSize - (libSize % 9)) + 9;  // Because inventories come in lines of 9 only.
+            if (useSize > 54){
+                useSize = 54;
+                sender.sendMessage("There are more books, but they wouldn't fit in the library box!");
+            }
+            Inventory libraryShelf = Bukkit.createInventory(player,useSize,"Library");
+            for (KonseptBook book : library.getAll()){
+                libraryShelf.addItem(book.getSigned());
+            }
+            player.openInventory(libraryShelf);
+        }
+        else {
+            sender.sendMessage("You have to be in-game for this to work.");
+        }
+        return true;
     }
 }

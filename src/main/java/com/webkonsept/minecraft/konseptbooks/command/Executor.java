@@ -80,10 +80,17 @@ public class Executor implements CommandExecutor{
                 showUsage = false;
                 Actions.reload(sender, plugin);
                 break;
+            case "save":
+                showUsage = false;
+                Actions.save(sender, plugin);
+                break;
             case "list":
                 showUsage = false;
                 Actions.sendBookList(sender, plugin.getLibrary());
                 break;
+            case "library":
+                showUsage = false;
+                Actions.showLibrary(sender,plugin.getLibrary());
             case "update":
                 showUsage = false;
                 if (Actions.updateBook(sender, plugin.getLibrary(),actionArgs)) {

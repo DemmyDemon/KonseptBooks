@@ -117,10 +117,12 @@ public class KonseptBooks extends JavaPlugin {
             case UPDATE_AVAILABLE:
                 updateWaiting = true;  //TODO do something fancy with this onLogin, or whatever.  Might be a nuisance?  TEST MOAR!
                 if (updater.getLatestType().equals(Updater.ReleaseType.RELEASE)){
-                    getLogger().info("A new and fresh update is available right here:  "+updater.getLatestFileLink());
+                    getLogger().info("You are running "+getDescription().getVersion()+", the latest release is "+updater.getLatestName());
+                    getLogger().info("You can download it here:  "+updater.getLatestFileLink());
                 }
                 else if (updater.getLatestType().equals(Updater.ReleaseType.BETA)){
-                    getLogger().info("You might want to consider the latest BETA release:  "+updater.getLatestFileLink());
+                    getLogger().info("You are running "+getDescription().getVersion()+", the latest released BETA is "+updater.getLatestName());
+                    getLogger().info("If you want to test it, get it here: "+updater.getLatestFileLink());
                 }
                 else {
                     getLogger().info("Feel like an adventure?  Try the new "+updater.getLatestType().toString()+" at "+updater.getLatestFileLink());

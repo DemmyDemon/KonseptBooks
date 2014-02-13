@@ -15,9 +15,11 @@ permissions:
     default: op
     children:
       konseptbooks.action.reload: true
+      konseptbooks.action.save: true
       konseptbooks.action.update: true
       konseptbooks.action.add: true
       konseptbooks.action.unsigned: true
+      konseptbooks.action.prepend: true
       konseptbooks.action.author: true
       konseptbooks.action.title: true
       konseptbooks.user: true
@@ -27,6 +29,7 @@ permissions:
     children:
       konseptbooks.getbooks: true
       konseptbooks.getupdates: true
+      konseptbooks.action.library: true
       konseptbooks.action.list: true
       konseptbooks.action.help: true
   konseptbooks.getupdates:
@@ -36,7 +39,13 @@ permissions:
     description: 'Access to summoning books from thin air'
     default: false
   konseptbooks.action.reload:
-    description: 'Access to reloading book definitions from disk'
+    description: 'Access to reloading book definitions and configuration from disk'
+    default: false
+  konseptbooks.action.reload:
+    description: 'Access to saving the books to disk'
+    default: false
+  konseptbooks.action.library:
+    description: 'Access to viewing all the books in an inventory box'
     default: false
   konseptbooks.action.list:
     description: 'Access to listing the available books'
@@ -52,6 +61,9 @@ permissions:
     default: false
   konseptbooks.action.unsigned:
     description: 'Access to getting unsigned books from the library'
+    default: false
+  konseptbooks.action.prepend:
+    description: 'Access to adding pages to the start of an unsigned book'
     default: false
   konseptbooks.action.author:
       description: 'Access to setting the author of a book in your hand'
