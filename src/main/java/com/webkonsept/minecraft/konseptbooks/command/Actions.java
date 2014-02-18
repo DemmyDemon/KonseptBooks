@@ -382,7 +382,7 @@ public final class Actions {
      * @param library The library to get the book from.
      * @return Returns true if the book was actually given, false otherwise.
      */
-    public static boolean getUnsignedBook(CommandSender sender, String[] args, KonseptBooksLibrary library) {
+    public static boolean getUnsignedBook(CommandSender sender, String[] args, KonseptBooksLibrary library, boolean applyUpdateLore) {
         if (sender instanceof Player){
             Player player = (Player) sender;
             String title = KonseptBooks.storageName(KonseptBooks.join(" ",args));
@@ -390,7 +390,7 @@ public final class Actions {
             if (book != null){
                 int slot = player.getInventory().firstEmpty();
                 if (slot >= 0){
-                    ItemStack bookItem = book.getUnsigned();
+                    ItemStack bookItem = book.getUnsigned(applyUpdateLore);
                     player.getInventory().setItem(slot,bookItem);
                     sender.sendMessage(ChatColor.GOLD+"There you go, you have an unsigned copy of "+book.getTitle());
                     return true;
@@ -409,7 +409,7 @@ public final class Actions {
         return false;
     }
 
-    public static boolean showLibrary(CommandSender sender, KonseptBooksLibrary library){
+    public static boolean showLibrary(CommandSender sender, KonseptBooksLibrary library,boolean applyUpdateLore){
         if (sender instanceof Player){
             Player player = (Player) sender;
             int libSize = library.size();
@@ -420,7 +420,7 @@ public final class Actions {
             }
             Inventory libraryShelf = Bukkit.createInventory(player,useSize,"Library");
             for (KonseptBook book : library.getAll()){
-                libraryShelf.addItem(book.getSigned());
+                libraryShelf.addItem(book.getSigned(applyUpdateLore));
             }
             player.openInventory(libraryShelf);
         }

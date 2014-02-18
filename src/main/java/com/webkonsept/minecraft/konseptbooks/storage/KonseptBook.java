@@ -61,8 +61,8 @@ public class KonseptBook implements ConfigurationSerializable {
      * It has been signed by the defined author, and can not be amended.
      * @return A single "Written book" representing this book.
      */
-    public ItemStack getSigned(){
-        return applyMeta(new ItemStack(Material.WRITTEN_BOOK));
+    public ItemStack getSigned(boolean applyUpdateLore){
+        return applyMeta(new ItemStack(Material.WRITTEN_BOOK),applyUpdateLore);
     }
 
     /**
@@ -70,8 +70,8 @@ public class KonseptBook implements ConfigurationSerializable {
      * It is NOT signed, and can be edited freely.
      * @return A single "Book and quill" representing this book.
      */
-    public ItemStack getUnsigned(){
-        return applyMeta(new ItemStack(Material.BOOK_AND_QUILL));
+    public ItemStack getUnsigned(boolean applyUpdateLore){
+        return applyMeta(new ItemStack(Material.BOOK_AND_QUILL),applyUpdateLore);
     }
 
     /**
@@ -79,17 +79,19 @@ public class KonseptBook implements ConfigurationSerializable {
      * @param book An ItemStack with books in them.  It's .getItemMeta() result must be or extend BookMeta.
      * @return The same stack, but with the relevant meta set, if possible.  If not possible, it returns what it got.
      */
-    public ItemStack applyMeta(ItemStack book){
+    public ItemStack applyMeta(ItemStack book,boolean applyUpdateLore){
         ItemMeta meta = book.getItemMeta();
         if (meta instanceof BookMeta){
             BookMeta bookMeta = (BookMeta) book.getItemMeta();
             bookMeta.setTitle(title);
             bookMeta.setAuthor(author);
             bookMeta.setPages(pages);
-            bookMeta.setLore(new ArrayList<String>(){{
-                add("Last updated");
-                add(updated.toString());
-            }});
+            if (applyUpdateLore){
+                bookMeta.setLore(new ArrayList<String>(){{
+                    add("Last updated");
+                    add(updated.toString());
+                }});
+            }
             book.setItemMeta(bookMeta);
         }
         return book;

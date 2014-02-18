@@ -22,10 +22,24 @@ public class KonseptBooks extends JavaPlugin {
     protected Updater updater;
     protected boolean updateWaiting = false;
 
-    // TODONE - Made this stuff configurable!
-    protected boolean autosave = true;
-    protected boolean giveNewbieBook = false;
-    protected String newbieBookName = "Welcome";
+    // Configuration
+    private boolean autosave = true;
+    private boolean giveNewbieBook = false;
+    private String newbieBookName = "Welcome";
+    private boolean applyUpdateLore = true;
+
+    public boolean enabledUpdateLore(){
+        return applyUpdateLore;
+    }
+    public boolean enabledGiveNewbieBook(){
+        return giveNewbieBook;
+    }
+    public boolean enabledAutoSave(){
+        return autosave;
+    }
+    public String getNewbieBookName(){
+        return newbieBookName;
+    }
 
     @Override
     public void onEnable() {
@@ -55,6 +69,7 @@ public class KonseptBooks extends JavaPlugin {
         autosave = getConfig().getBoolean("autosave",true);
         giveNewbieBook = getConfig().getBoolean("giveNewbieBook",false);
         newbieBookName = getConfig().getString("newbieBookName","Welcome");
+        applyUpdateLore = getConfig().getBoolean("applyUpdateLore",true);
         boolean checkForUpdates = getConfig().getBoolean("checkForUpdates", true);
 
         if (checkForUpdates){

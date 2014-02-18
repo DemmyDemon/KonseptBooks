@@ -118,7 +118,7 @@ public class KonseptBooksLibrary {
      * @param inventory The inventory that might hold some books.
      */
     public void updateBooksInInventory(Inventory inventory){
-        // TODO: Perhaps check if the book is updated etc etc.
+        // Perhaps check if the book is updated etc etc. ?
         // Profiling seems to indicate that doing those checks might actually be more costly than just doing it.
         // Besides, it's not a proven performance issue, so let's optimize when we need to, shall we?
         if (inventory != null){
@@ -144,7 +144,7 @@ public class KonseptBooksLibrary {
         }
         else {
             books.put(title,book);
-            if (plugin.autosave){
+            if (plugin.enabledAutoSave()){
                 save();
             }
             return true;
@@ -164,7 +164,7 @@ public class KonseptBooksLibrary {
         if (books.containsKey(title)){
             book.updatedNow();
             books.put(title,book);
-            if (plugin.autosave){
+            if (plugin.enabledAutoSave()){
                 save();
             }
             return true;
@@ -196,7 +196,7 @@ public class KonseptBooksLibrary {
         title = KonseptBooks.storageName(title);
         if (books.containsKey(title)){
             books.remove(title);
-            if (plugin.autosave){
+            if (plugin.enabledAutoSave()){
                 save();
             }
             return true;
@@ -240,7 +240,7 @@ public class KonseptBooksLibrary {
             String title = KonseptBooks.storageName(meta.getTitle());
             if (books.containsKey(title)){
                 KonseptBook book = books.get(title);
-                book.applyMeta(item);
+                book.applyMeta(item,plugin.enabledUpdateLore());
             }
         }
     }

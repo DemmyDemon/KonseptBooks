@@ -90,7 +90,7 @@ public class Executor implements CommandExecutor{
                 break;
             case "library":
                 showUsage = false;
-                Actions.showLibrary(sender,plugin.getLibrary());
+                Actions.showLibrary(sender,plugin.getLibrary(),plugin.enabledUpdateLore());
                 break;
             case "update":
                 showUsage = false;
@@ -110,7 +110,7 @@ public class Executor implements CommandExecutor{
                 break;
             case "unsigned":
                 showUsage = false;
-                Actions.getUnsignedBook(sender, actionArgs, plugin.getLibrary());
+                Actions.getUnsignedBook(sender, actionArgs, plugin.getLibrary(),plugin.enabledUpdateLore());
                 break;
             case "author":
                 showUsage = false;
@@ -140,7 +140,7 @@ public class Executor implements CommandExecutor{
             PlayerInventory inventory = player.getInventory();
             int availableSlot = inventory.firstEmpty();
             if (availableSlot >= 0){
-                inventory.setItem(availableSlot,book.getSigned());
+                inventory.setItem(availableSlot,book.getSigned(plugin.enabledUpdateLore()));
                 player.sendMessage(ChatColor.GOLD+"You have been given the book "+book.getTitle());
                 return true;
             }

@@ -2,3 +2,4 @@ autosave: true
 checkForUpdates: true
 giveNewbieBook: false
 newbieBookName: 'Welcome'
+applyUpdateLore: true

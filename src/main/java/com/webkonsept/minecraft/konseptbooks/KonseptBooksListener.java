@@ -29,11 +29,11 @@ public class KonseptBooksListener implements Listener {
             }
         }
         else {
-            if (plugin.giveNewbieBook){
-                KonseptBook newbieBook = plugin.getLibrary().getBook(plugin.newbieBookName);
+            if (plugin.enabledGiveNewbieBook()){
+                KonseptBook newbieBook = plugin.getLibrary().getBook(plugin.getNewbieBookName());
                 if (newbieBook != null){
                     if (player.hasPermission("konseptbooks.getbooks")){
-                        ItemStack book = newbieBook.getSigned();
+                        ItemStack book = newbieBook.getSigned(plugin.enabledUpdateLore());
                         int slot = player.getInventory().firstEmpty();
                         if (slot < 0){
                             plugin.getLogger().warning("Your new players don't have space for the book you want to give them.  Seriously?");
@@ -47,7 +47,7 @@ public class KonseptBooksListener implements Listener {
                     }
                 }
                 else {
-                    plugin.getLogger().warning("You are configured to give newbie books, but the book '"+plugin.newbieBookName+"' does not exist!");
+                    plugin.getLogger().warning("You are configured to give newbie books, but the book '"+plugin.getNewbieBookName()+"' does not exist!");
                 }
             }
         }
